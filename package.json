@@ -1,0 +1,45 @@
+{
+  "name": "promptrace",
+  "version": "0.1.0",
+  "description": "The flight recorder for AI coding — keeps your docs in sync with your code",
+  "bin": {
+    "promptrace": "./bin/promptrace.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "skill/",
+    "scripts/"
+  ],
+  "keywords": [
+    "claude-code",
+    "skill",
+    "agent-skill",
+    "documentation",
+    "claude-md",
+    "agents-md",
+    "ai-coding",
+    "mcp",
+    "developer-tools",
+    "changelog",
+    "readme",
+    "cursor",
+    "codex",
+    "windsurf",
+    "aider"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "type": "module",
+  "license": "MIT",
+  "author": "888wing",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/888wing/promptrace"
+  },
+  "homepage": "https://github.com/888wing/promptrace#readme",
+  "bugs": {
+    "url": "https://github.com/888wing/promptrace/issues"
+  }
+}
