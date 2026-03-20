@@ -233,7 +233,7 @@ section{padding:80px 24px;position:relative}
 .term-title{flex:1;text-align:center;font-family:var(--mono);font-size:10px;color:var(--text-dim)}
 .term-body{
   padding:16px 20px;font-family:var(--mono);font-size:11.5px;line-height:1.85;
-  min-height:200px;
+  min-height:200px;overflow-y:auto;
 }
 .tp{color:var(--green)}.tc{color:var(--text)}.td{color:var(--text-dim)}
 .ta{color:var(--amber)}.tr{color:var(--red)}.tg{color:var(--green)}
@@ -335,6 +335,36 @@ footer{
   background:radial-gradient(400px circle at var(--glow-x,50%) var(--glow-y,50%),rgba(240,160,48,0.08),transparent 60%);
 }
 .feat:hover::before{opacity:1}
+
+/* TYPEWRITER */
+.term-cursor{display:inline-block;width:7px;height:14px;background:var(--amber);animation:blink 1s step-end infinite;vertical-align:text-bottom;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
+.term-line{opacity:0;transition:opacity 0.15s}
+.term-line.typed{opacity:1}
+.term-line.highlight{animation:lineFlash 0.4s ease}
+@keyframes lineFlash{0%{background:rgba(240,160,48,0.1)}100%{background:transparent}}
+
+/* BEFORE/AFTER SLIDER */
+.ba-slider{position:relative;max-width:700px;margin:32px auto 0;background:var(--surface);border-radius:8px;overflow:hidden;border:1px solid rgba(240,160,48,0.08);user-select:none}
+.ba-slider-layer{position:absolute;inset:0;padding:28px;font-family:var(--mono);font-size:11.5px;line-height:1.8;overflow:hidden}
+.ba-slider-before{background:var(--surface);z-index:1;border-right:2px solid var(--amber)}
+.ba-slider-after{position:relative;z-index:0;background:var(--bg)}
+.ba-slider-handle{
+  position:absolute;top:0;bottom:0;z-index:2;width:32px;cursor:ew-resize;
+  display:flex;align-items:center;justify-content:center;transform:translateX(-50%);
+}
+.ba-slider-grip{
+  width:24px;height:48px;background:var(--surface2);border:1px solid var(--amber);
+  border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;color:var(--amber);
+  box-shadow:0 2px 10px rgba(0,0,0,0.3);
+}
+.ba-label{
+  position:absolute;top:8px;font-family:var(--mono);font-size:9px;
+  letter-spacing:1px;text-transform:uppercase;z-index:3;padding:2px 6px;border-radius:2px;
+}
+.ba-label-before{left:8px;color:var(--red);background:rgba(232,64,64,0.1)}
+.ba-label-after{right:8px;color:var(--green);background:rgba(48,216,128,0.1)}
 </style>
 </head>
 <body>
@@ -613,66 +643,22 @@ footer{
         <div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div>
         <div class="term-title">~/projects/ride-flow — claude code</div>
       </div>
-      <div class="term-body">
-<span class="tp">$</span> <span class="tc">npx codetape init</span>
-
-<span class="td">  Scanning project...</span>
-<span class="tg">  ✓</span> Detected: TypeScript + Next.js
-<span class="tg">  ✓</span> Found 23 components in src/
-<span class="tg">  ✓</span> Created .codetape/config.json
-<span class="tg">  ✓</span> Installed skill → .claude/skills/codetape/
-<span class="tg">  ✓</span> Added 7 commands → .claude/commands/
-<span class="td">  Done! Try /trace after your next session.</span>
-
-<span class="td">─────────────────────────────────────────</span>
-
-<span class="tp">claude▸</span> <span class="tc">/trace</span>
-
-<span class="td">  Analysing 12 modified files...</span>
-
-<span class="ta">  ┌─ Trace: stripe-preauth-flow ──────────┐</span>
-<span class="ta">  │</span>                                        <span class="ta">│</span>
-<span class="ta">  │</span>  Impact: <span class="tr">HIGH</span> — core payment changed    <span class="ta">│</span>
-<span class="ta">  │</span>                                        <span class="ta">│</span>
-<span class="ta">  │</span>  <span class="tcy">◉</span> PaymentService    <span class="td">refactored</span>       <span class="ta">│</span>
-<span class="ta">  │</span>  <span class="tcy">◉</span> StripeWebhook     <span class="tg">new</span>             <span class="ta">│</span>
-<span class="ta">  │</span>  <span class="tcy">◉</span> BookingFlow       <span class="td">modified</span>        <span class="ta">│</span>
-<span class="ta">  │</span>                                        <span class="ta">│</span>
-<span class="ta">  │</span>  Decision: PaymentIntent API over       <span class="ta">│</span>
-<span class="ta">  │</span>  Charges (SCA + delayed capture)        <span class="ta">│</span>
-<span class="ta">  │</span>                                        <span class="ta">│</span>
-<span class="ta">  │</span>  TODO: preauth expiry handling          <span class="ta">│</span>
-<span class="ta">  │</span>  TODO: webhook integration test         <span class="ta">│</span>
-<span class="ta">  │</span>                                        <span class="ta">│</span>
-<span class="ta">  └────────────────────────────────────────┘</span>
-
-<span class="tg">  ✓</span> Saved → .codetape/traces/2026-03-20_stripe-preauth.md
-<span class="tg">  ✓</span> Updated component-map.json (3 components)
-<span class="ta">  ⚠</span> README.md#payment-flow is outdated → /trace-sync
-      </div>
+      <div class="term-body" id="term-demo"></div>
     </div>
 
     <!-- BEFORE / AFTER -->
-    <div class="ba reveal">
-      <div style="text-align:center">
-<pre class="ascii ascii-dim ascii-sm" style="margin-bottom:20px">
-        ┌──────────────┐          ┌──────────────┐
-        │    WITHOUT   │    vs    │     WITH     │
-        │   codetape   │          │   codetape   │
-        └──────────────┘          └──────────────┘</pre>
-      </div>
-      <div class="ba-grid">
-        <div class="ba-card before">
-<pre class="ascii" style="font-size:11px;line-height:1.75"><span class="ascii-red">  ╳</span> <span class="ascii-mid">commit: "update payment"</span>
-<span class="ascii-red">  ╳</span> <span class="ascii-mid">commit: "fix stripe stuff"</span>
-<span class="ascii-red">  ╳</span> <span class="ascii-mid">commit: "wip"</span>
-<span class="ascii-red">  ╳</span> <span class="ascii-mid">README says "instant charge"</span>
-<span class="ascii-red">  ╳</span> <span class="ascii-mid">CLAUDE.md describes old arch</span>
-<span class="ascii-red">  ╳</span> <span class="ascii-mid">New dev: "how does this work?"</span>
-<span class="ascii-dim">
-  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span></pre>
-        </div>
-        <div class="ba-card after">
+<div class="ba reveal">
+  <div style="text-align:center">
+    <pre class="ascii ascii-dim ascii-sm" style="margin-bottom:20px">
+        ┌──────────────┐            ┌──────────────┐
+        │    WITHOUT   │  ◀ drag ▶  │     WITH     │
+        │   codetape   │            │   codetape   │
+        └──────────────┘            └──────────────┘</pre>
+  </div>
+  <div class="ba-slider" id="ba-slider" style="height:260px">
+    <span class="ba-label ba-label-before">without</span>
+    <span class="ba-label ba-label-after">with</span>
+    <div class="ba-slider-after" style="padding:28px">
 <pre class="ascii" style="font-size:11px;line-height:1.75"><span class="ascii-green">  ✓</span> <span class="ascii-mid">Trace: "pre-auth for SCA"</span>
 <span class="ascii-green">  ✓</span> <span class="ascii-mid">Decision: why pre-auth > charge</span>
 <span class="ascii-green">  ✓</span> <span class="ascii-mid">Component map auto-updated</span>
@@ -680,10 +666,25 @@ footer{
 <span class="ascii-green">  ✓</span> <span class="ascii-mid">CLAUDE.md knows current arch</span>
 <span class="ascii-green">  ✓</span> <span class="ascii-mid">New dev reads ARCHITECTURE.md</span>
 <span class="ascii-green">
-  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</span></pre>
-        </div>
+  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</span></pre>
+    </div>
+    <div class="ba-slider-before ba-slider-layer" id="ba-before">
+      <div style="padding:28px">
+<pre class="ascii" style="font-size:11px;line-height:1.75"><span class="ascii-red">  ╳</span> <span class="ascii-mid">commit: "update payment"</span>
+<span class="ascii-red">  ╳</span> <span class="ascii-mid">commit: "fix stripe stuff"</span>
+<span class="ascii-red">  ╳</span> <span class="ascii-mid">commit: "wip"</span>
+<span class="ascii-red">  ╳</span> <span class="ascii-mid">README says "instant charge"</span>
+<span class="ascii-red">  ╳</span> <span class="ascii-mid">CLAUDE.md describes old arch</span>
+<span class="ascii-red">  ╳</span> <span class="ascii-mid">New dev: "how does this work?"</span>
+<span class="ascii-dim">
+  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░</span></pre>
       </div>
     </div>
+    <div class="ba-slider-handle" id="ba-handle">
+      <div class="ba-slider-grip">◀▶</div>
+    </div>
+  </div>
+</div>
   </div>
 </section>
 
@@ -890,6 +891,136 @@ if (driftEl) driftObs.observe(driftEl);
       card.style.transform = '';
     });
   });
+})();
+
+// Terminal typewriter
+(function() {
+  const container = document.getElementById('term-demo');
+  if (!container) return;
+
+  const lines = [
+    {type:'type',prefix:'<span class="tp">$ </span>',text:'npx codetape init',speed:35,cls:'tc'},
+    {type:'pause',ms:400},
+    {type:'line',text:'<span class="td">  Scanning project...</span>',delay:200},
+    {type:'line',text:'<span class="tg">  \u2713</span> Detected: TypeScript + Next.js',delay:150,hl:1},
+    {type:'line',text:'<span class="tg">  \u2713</span> Found 23 components in src/',delay:150,hl:1},
+    {type:'line',text:'<span class="tg">  \u2713</span> Created .codetape/config.json',delay:150,hl:1},
+    {type:'line',text:'<span class="tg">  \u2713</span> Installed skill \u2192 .claude/skills/codetape/',delay:150,hl:1},
+    {type:'line',text:'<span class="tg">  \u2713</span> Added 7 commands \u2192 .claude/commands/',delay:150,hl:1},
+    {type:'line',text:'<span class="td">  Done! Try /trace after your next session.</span>',delay:300},
+    {type:'pause',ms:300},
+    {type:'line',text:'<span class="td">\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500</span>',delay:100},
+    {type:'pause',ms:400},
+    {type:'type',prefix:'<span class="tp">claude\u25b8 </span>',text:'/trace',speed:50,cls:'tc'},
+    {type:'pause',ms:500},
+    {type:'line',text:'<span class="td">  Analysing 12 modified files...</span>',delay:400},
+    {type:'pause',ms:300},
+    {type:'line',text:'<span class="ta">  \u250c\u2500 Trace: stripe-preauth-flow \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510</span>',delay:60},
+    {type:'line',text:'<span class="ta">  \u2502</span>                                        <span class="ta">\u2502</span>',delay:40},
+    {type:'line',text:'<span class="ta">  \u2502</span>  Impact: <span class="tr">HIGH</span> \u2014 core payment changed    <span class="ta">\u2502</span>',delay:60},
+    {type:'line',text:'<span class="ta">  \u2502</span>                                        <span class="ta">\u2502</span>',delay:40},
+    {type:'line',text:'<span class="ta">  \u2502</span>  <span class="tcy">\u25c9</span> PaymentService    <span class="td">refactored</span>       <span class="ta">\u2502</span>',delay:80},
+    {type:'line',text:'<span class="ta">  \u2502</span>  <span class="tcy">\u25c9</span> StripeWebhook     <span class="tg">new</span>             <span class="ta">\u2502</span>',delay:80},
+    {type:'line',text:'<span class="ta">  \u2502</span>  <span class="tcy">\u25c9</span> BookingFlow       <span class="td">modified</span>        <span class="ta">\u2502</span>',delay:80},
+    {type:'line',text:'<span class="ta">  \u2502</span>                                        <span class="ta">\u2502</span>',delay:40},
+    {type:'line',text:'<span class="ta">  \u2502</span>  Decision: PaymentIntent API over       <span class="ta">\u2502</span>',delay:60},
+    {type:'line',text:'<span class="ta">  \u2502</span>  Charges (SCA + delayed capture)        <span class="ta">\u2502</span>',delay:60},
+    {type:'line',text:'<span class="ta">  \u2502</span>                                        <span class="ta">\u2502</span>',delay:40},
+    {type:'line',text:'<span class="ta">  \u2502</span>  TODO: preauth expiry handling          <span class="ta">\u2502</span>',delay:60},
+    {type:'line',text:'<span class="ta">  \u2502</span>  TODO: webhook integration test         <span class="ta">\u2502</span>',delay:60},
+    {type:'line',text:'<span class="ta">  \u2502</span>                                        <span class="ta">\u2502</span>',delay:40},
+    {type:'line',text:'<span class="ta">  \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518</span>',delay:60},
+    {type:'pause',ms:200},
+    {type:'line',text:'<span class="tg">  \u2713</span> Saved \u2192 .codetape/traces/2026-03-20_stripe-preauth.md',delay:150,hl:1},
+    {type:'line',text:'<span class="tg">  \u2713</span> Updated component-map.json (3 components)',delay:150,hl:1},
+    {type:'line',text:'<span class="ta">  \u26a0</span> README.md#payment-flow is outdated \u2192 /trace-sync',delay:200,hl:1},
+  ];
+
+  let started = false;
+  const termObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !started) {
+        started = true;
+        runTypewriter(container, lines);
+        termObs.unobserve(container);
+      }
+    });
+  }, {threshold:0.3});
+  termObs.observe(container);
+
+  async function runTypewriter(el, items) {
+    for (const item of items) {
+      if (item.type === 'pause') {
+        await sleep(item.ms);
+      } else if (item.type === 'type') {
+        const div = document.createElement('div');
+        div.className = 'term-line typed';
+        div.innerHTML = item.prefix;
+        const span = document.createElement('span');
+        span.className = item.cls || '';
+        div.appendChild(span);
+        const cursor = document.createElement('span');
+        cursor.className = 'term-cursor';
+        div.appendChild(cursor);
+        el.appendChild(div);
+        el.scrollTop = el.scrollHeight;
+        for (const ch of item.text) {
+          span.textContent += ch;
+          await sleep(item.speed);
+        }
+        cursor.remove();
+        await sleep(200);
+      } else if (item.type === 'line') {
+        const div = document.createElement('div');
+        div.className = 'term-line' + (item.hl ? ' highlight' : '');
+        div.innerHTML = item.text;
+        el.appendChild(div);
+        await sleep(20);
+        div.classList.add('typed');
+        el.scrollTop = el.scrollHeight;
+        await sleep(item.delay || 100);
+      }
+    }
+    const cursorDiv = document.createElement('div');
+    cursorDiv.className = 'term-line typed';
+    cursorDiv.innerHTML = '<span class="tp">claude\u25b8 </span><span class="term-cursor"></span>';
+    el.appendChild(cursorDiv);
+  }
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+})();
+
+// Before/After slider
+(function() {
+  const slider = document.getElementById('ba-slider');
+  const handle = document.getElementById('ba-handle');
+  const before = document.getElementById('ba-before');
+  if (!slider || !handle || !before) return;
+
+  let dragging = false;
+  let pos = 0.35;
+
+  function setPos(p) {
+    pos = Math.max(0.05, Math.min(0.95, p));
+    const pct = pos * 100;
+    before.style.width = pct + '%';
+    handle.style.left = pct + '%';
+  }
+  setPos(pos);
+
+  function getX(e) {
+    const touch = e.touches ? e.touches[0] : e;
+    const rect = slider.getBoundingClientRect();
+    return (touch.clientX - rect.left) / rect.width;
+  }
+
+  handle.addEventListener('mousedown', () => dragging = true);
+  handle.addEventListener('touchstart', () => dragging = true, {passive:true});
+  window.addEventListener('mousemove', (e) => { if (dragging) setPos(getX(e)); });
+  window.addEventListener('touchmove', (e) => { if (dragging) setPos(getX(e)); }, {passive:true});
+  window.addEventListener('mouseup', () => dragging = false);
+  window.addEventListener('touchend', () => dragging = false);
+  slider.addEventListener('click', (e) => setPos(getX(e)));
 })();
 </script>
 </body>
