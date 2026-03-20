@@ -3,16 +3,16 @@ import { join } from 'node:path';
 
 export async function status(args) {
   const projectDir = process.cwd();
-  const promptraceDir = join(projectDir, '.promptrace');
+  const codetapeDir = join(projectDir, '.codetape');
 
-  // 1. Check if .promptrace/ exists
-  if (!existsSync(promptraceDir)) {
-    console.log('\nPrompTrace is not initialized. Run: npx promptrace init\n');
+  // 1. Check if .codetape/ exists
+  if (!existsSync(codetapeDir)) {
+    console.log('\nCodeTape is not initialized. Run: npx codetape init\n');
     return;
   }
 
   // 2. Read config.json
-  const configPath = join(promptraceDir, 'config.json');
+  const configPath = join(codetapeDir, 'config.json');
   let config = null;
   if (existsSync(configPath)) {
     try {
@@ -27,7 +27,7 @@ export async function status(args) {
   const framework = config?.framework || 'none';
 
   // 3. Count .md files in traces/
-  const tracesDir = join(promptraceDir, 'traces');
+  const tracesDir = join(codetapeDir, 'traces');
   let traceCount = 0;
   let lastTraceDate = 'never';
 
@@ -49,11 +49,11 @@ export async function status(args) {
 
   // 5. Check if skill installed
   const skillInstalled = existsSync(
-    join(projectDir, '.claude', 'skills', 'promptrace', 'SKILL.md')
+    join(projectDir, '.claude', 'skills', 'codetape', 'SKILL.md')
   );
 
   // 6. Read component-map.json
-  const mapPath = join(promptraceDir, 'component-map.json');
+  const mapPath = join(codetapeDir, 'component-map.json');
   let componentCount = 0;
   if (existsSync(mapPath)) {
     try {
@@ -65,7 +65,7 @@ export async function status(args) {
   }
 
   // 7. Format output
-  console.log('\nPrompTrace Status');
+  console.log('\nCodeTape Status');
   console.log(`  Project:    ${name} (${language}/${framework})`);
   console.log(`  Traces:     ${traceCount} (last: ${lastTraceDate})`);
   console.log(`  Components: ${componentCount}`);

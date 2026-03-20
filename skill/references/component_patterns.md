@@ -130,7 +130,7 @@ Language-specific patterns for detecting components during trace analysis.
 
 When the language is not specifically handled above, apply these rules:
 
-1. Scan files in directories listed in `component_roots` (from `.promptrace/config.json`)
+1. Scan files in directories listed in `component_roots` (from `.codetape/config.json`)
 2. A file is a component candidate if it:
    - Exports or defines at least one class, function, struct, or type
    - Is NOT a test file (`*test*`, `*spec*`, `__tests__/`)

@@ -1,7 +1,7 @@
-<!-- promptrace:start:architecture -->
+<!-- codetape:start:architecture -->
 ## Architecture
 
-> Auto-maintained by [Promptrace](https://github.com/888wing/promptrace). Last synced: {YYYY-MM-DD}.
+> Auto-maintained by [Codetape](https://github.com/888wing/codetape). Last synced: {YYYY-MM-DD}.
 
 ### Components
 
@@ -15,4 +15,4 @@
 |------|-------|--------|
 | {date} | {scope from trace} | {Low/Medium/High} |
 
-<!-- promptrace:end:architecture -->
+<!-- codetape:end:architecture -->

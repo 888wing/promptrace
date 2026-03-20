@@ -6,8 +6,8 @@ Generate architecture documentation from the component map.
 
 ## Instructions
 
-1. Read `.promptrace/component-map.json` for all components and relationships
-2. Read recent traces from `.promptrace/traces/` for context and decisions
+1. Read `.codetape/component-map.json` for all components and relationships
+2. Read recent traces from `.codetape/traces/` for context and decisions
 3. Generate `docs/ARCHITECTURE.md` following @templates/architecture_overview.md:
    - Write a system overview (3-5 sentences about the project's purpose and architecture)
    - Generate a Mermaid dependency graph from component relationships

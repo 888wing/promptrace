@@ -8,7 +8,7 @@ export async function uninstall(args) {
   const rl = createInterface({ input: stdin, output: stdout });
 
   try {
-    const answer = await rl.question('Remove Promptrace skill files? Your .promptrace/ data will be preserved. (y/N) ');
+    const answer = await rl.question('Remove Codetape skill files? Your .codetape/ data will be preserved. (y/N) ');
     if (answer.toLowerCase() !== 'y') {
       console.log('Aborted.');
       return;
@@ -16,14 +16,14 @@ export async function uninstall(args) {
 
     let removedCount = 0;
 
-    // 1. Remove .claude/skills/promptrace/ directory
-    const skillDir = join(projectDir, '.claude', 'skills', 'promptrace');
+    // 1. Remove .claude/skills/codetape/ directory
+    const skillDir = join(projectDir, '.claude', 'skills', 'codetape');
     if (existsSync(skillDir)) {
       rmSync(skillDir, { recursive: true });
-      console.log('  ✓ Removed .claude/skills/promptrace/');
+      console.log('  ✓ Removed .claude/skills/codetape/');
       removedCount++;
     } else {
-      console.log('  - .claude/skills/promptrace/ not found (skipped)');
+      console.log('  - .claude/skills/codetape/ not found (skipped)');
     }
 
     // 2. Remove trace-*.md files from .claude/commands/
@@ -44,10 +44,10 @@ export async function uninstall(args) {
     }
 
     // 3. Warn about preserved data
-    const promptraceDir = join(projectDir, '.promptrace');
-    if (existsSync(promptraceDir)) {
-      console.log('\n  ⚠ .promptrace/ directory preserved (contains your trace data)');
-      console.log('    To remove it manually: rm -rf .promptrace/');
+    const codetapeDir = join(projectDir, '.codetape');
+    if (existsSync(codetapeDir)) {
+      console.log('\n  ⚠ .codetape/ directory preserved (contains your trace data)');
+      console.log('    To remove it manually: rm -rf .codetape/');
     }
 
     console.log(`\n✅ Uninstall complete. Removed ${removedCount} item${removedCount !== 1 ? 's' : ''}.\n`);

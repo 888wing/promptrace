@@ -6,7 +6,7 @@ export async function doctor(args) {
   let passed = 0;
   let total = 0;
 
-  console.log('\nPrompTrace Doctor\n');
+  console.log('\nCodeTape Doctor\n');
 
   // Helper: run a single check
   function check(label, condition) {
@@ -30,24 +30,24 @@ export async function doctor(args) {
     }
   }
 
-  const promptraceDir = join(projectDir, '.promptrace');
+  const codetapeDir = join(projectDir, '.codetape');
   const claudeDir = join(projectDir, '.claude');
-  const skillDir = join(claudeDir, 'skills', 'promptrace');
+  const skillDir = join(claudeDir, 'skills', 'codetape');
 
-  // 1. .promptrace/ directory exists
-  check('.promptrace/ directory exists', existsSync(promptraceDir));
+  // 1. .codetape/ directory exists
+  check('.codetape/ directory exists', existsSync(codetapeDir));
 
   // 2. config.json exists and is valid JSON
-  check('.promptrace/config.json is valid', isValidJson(join(promptraceDir, 'config.json')));
+  check('.codetape/config.json is valid', isValidJson(join(codetapeDir, 'config.json')));
 
   // 3. component-map.json exists and is valid JSON
-  check('.promptrace/component-map.json is valid', isValidJson(join(promptraceDir, 'component-map.json')));
+  check('.codetape/component-map.json is valid', isValidJson(join(codetapeDir, 'component-map.json')));
 
   // 4. traces/ directory exists
-  check('.promptrace/traces/ directory exists', existsSync(join(promptraceDir, 'traces')));
+  check('.codetape/traces/ directory exists', existsSync(join(codetapeDir, 'traces')));
 
   // 5. SKILL.md exists
-  check('.claude/skills/promptrace/SKILL.md exists', existsSync(join(skillDir, 'SKILL.md')));
+  check('.claude/skills/codetape/SKILL.md exists', existsSync(join(skillDir, 'SKILL.md')));
 
   // 6. All 4 reference files
   const referenceFiles = [
@@ -93,9 +93,9 @@ export async function doctor(args) {
   console.log(`\n${passed}/${total} checks passed`);
 
   if (passed < total) {
-    console.log('\nSome checks failed. Run: npx promptrace init');
+    console.log('\nSome checks failed. Run: npx codetape init');
   } else {
-    console.log('\nAll checks passed. Promptrace is healthy.');
+    console.log('\nAll checks passed. Codetape is healthy.');
   }
   console.log('');
 }

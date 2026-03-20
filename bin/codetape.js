@@ -12,16 +12,16 @@ const command = process.argv[2];
 const args = process.argv.slice(3);
 
 function printUsage() {
-  console.log(`promptrace v${pkg.version}
+  console.log(`codetape v${pkg.version}
 The flight recorder for AI coding
 
-Usage: promptrace <command> [options]
+Usage: codetape <command> [options]
 
 Commands:
-  init          Set up Promptrace in the current project
+  init          Set up Codetape in the current project
   install       Install skill only (use -g for global)
   uninstall     Remove skill and clean up
-  status        Show Promptrace status
+  status        Show Codetape status
   doctor        Verify installation integrity
 
 Options:
@@ -29,9 +29,9 @@ Options:
   --help        Show this help
 
 Examples:
-  npx promptrace init
-  npx promptrace install -g
-  npx promptrace doctor`);
+  npx codetape init
+  npx codetape install -g
+  npx codetape doctor`);
 }
 
 async function main() {

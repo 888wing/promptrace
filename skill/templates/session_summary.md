@@ -1,4 +1,4 @@
-✓ Trace saved: .promptrace/traces/{filename}.md
+✓ Trace saved: .codetape/traces/{filename}.md
 
   Scope:      {scope from trace}
   Impact:     {Low|Medium|High}

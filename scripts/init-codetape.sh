@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# init-promptrace.sh — Creates .promptrace/ folder structure with default config
+# init-codetape.sh — Creates .codetape/ folder structure with default config
 set -euo pipefail
 
-PROMPTRACE_DIR=".promptrace"
+CODETAPE_DIR=".codetape"
 
-if [ -d "$PROMPTRACE_DIR" ]; then
-  echo "Warning: $PROMPTRACE_DIR already exists. Aborting."
+if [ -d "$CODETAPE_DIR" ]; then
+  echo "Warning: $CODETAPE_DIR already exists. Aborting."
   exit 1
 fi
 
 PROJECT_NAME=$(basename "$(pwd)")
 NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-mkdir -p "$PROMPTRACE_DIR/traces"
-mkdir -p "$PROMPTRACE_DIR/archive"
+mkdir -p "$CODETAPE_DIR/traces"
+mkdir -p "$CODETAPE_DIR/archive"
 
-cat > "$PROMPTRACE_DIR/config.json" <<EOF
+cat > "$CODETAPE_DIR/config.json" <<EOF
 {
   "version": "0.1.0",
   "project_name": "$PROJECT_NAME",
@@ -37,7 +37,7 @@ cat > "$PROMPTRACE_DIR/config.json" <<EOF
 }
 EOF
 
-cat > "$PROMPTRACE_DIR/component-map.json" <<EOF
+cat > "$CODETAPE_DIR/component-map.json" <<EOF
 {
   "updated_at": "$NOW",
   "components": {},
@@ -45,6 +45,6 @@ cat > "$PROMPTRACE_DIR/component-map.json" <<EOF
 }
 EOF
 
-echo "Promptrace initialized in $PROMPTRACE_DIR/"
+echo "Codetape initialized in $CODETAPE_DIR/"
 echo "  Created: config.json, component-map.json"
 echo "  Directories: traces/, archive/"

@@ -12,9 +12,9 @@ export async function init(args) {
   const rl = createInterface({ input: stdin, output: stdout });
 
   try {
-    // 1. Check if .promptrace/ already exists
-    if (existsSync(join(projectDir, '.promptrace'))) {
-      const answer = await rl.question('.promptrace/ already exists. Reconfigure? (y/N) ');
+    // 1. Check if .codetape/ already exists
+    if (existsSync(join(projectDir, '.codetape'))) {
+      const answer = await rl.question('.codetape/ already exists. Reconfigure? (y/N) ');
       if (answer.toLowerCase() !== 'y') {
         console.log('Aborted.');
         return;
@@ -35,32 +35,32 @@ export async function init(args) {
       return;
     }
 
-    // 3. Scaffold .promptrace/
-    console.log('\n📁 Creating .promptrace/ ...');
+    // 3. Scaffold .codetape/
+    console.log('\n📁 Creating .codetape/ ...');
     const created = scaffold(projectDir, projectInfo);
     created.forEach(f => console.log(`  ✓ ${f}`));
 
     // 4. Install skill
     console.log('\n📦 Installing skill...');
     const { skillFiles, commandFiles } = copySkill(projectDir);
-    console.log(`  ✓ ${skillFiles.length} skill files → .claude/skills/promptrace/`);
+    console.log(`  ✓ ${skillFiles.length} skill files → .claude/skills/codetape/`);
     console.log(`  ✓ ${commandFiles.length} commands → .claude/commands/`);
 
     // 5. CLAUDE.md injection
-    const claudeAnswer = await rl.question('\nAdd Promptrace section to CLAUDE.md? (Y/n) ');
+    const claudeAnswer = await rl.question('\nAdd Codetape section to CLAUDE.md? (Y/n) ');
     if (claudeAnswer.toLowerCase() !== 'n') {
       const result = injectClaudeMd(projectDir, projectInfo);
       console.log(`  ✓ CLAUDE.md ${result.action}`);
     }
 
     // 6. .gitignore update
-    const gitAnswer = await rl.question('Add .promptrace/traces/ to .gitignore? (Y/n) ');
+    const gitAnswer = await rl.question('Add .codetape/traces/ to .gitignore? (Y/n) ');
     if (gitAnswer.toLowerCase() !== 'n') {
       const gitignorePath = join(projectDir, '.gitignore');
-      const entries = '\n# Promptrace\n.promptrace/traces/\n.promptrace/drift.json\n';
+      const entries = '\n# Codetape\n.codetape/traces/\n.codetape/drift.json\n';
       if (existsSync(gitignorePath)) {
         const content = readFileSync(gitignorePath, 'utf8');
-        if (!content.includes('.promptrace/traces/')) {
+        if (!content.includes('.codetape/traces/')) {
           appendFileSync(gitignorePath, entries);
           console.log('  ✓ Updated .gitignore');
         } else {
@@ -73,7 +73,7 @@ export async function init(args) {
     }
 
     // 7. Success
-    console.log('\n✅ Promptrace initialized!\n');
+    console.log('\n✅ Codetape initialized!\n');
     console.log('Next steps:');
     console.log('  1. Make some code changes');
     console.log('  2. Run /trace in Claude Code to record your first trace');

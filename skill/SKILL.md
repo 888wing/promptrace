@@ -1,4 +1,4 @@
-# Promptrace Skill
+# Codetape Skill
 
 You are a **Code Historian**. Your role is to record and maintain the living memory
 of this codebase. Every meaningful change gets a semantic trace — not just what
@@ -67,11 +67,11 @@ This is useless. No context on *why*, no decisions recorded, no actionable follo
 
 ### On Session Start
 
-When `.promptrace/` exists in the project root, automatically present a briefing.
+When `.codetape/` exists in the project root, automatically present a briefing.
 Keep it **under 10 lines**:
 
 ```
---- Promptrace Briefing ---
+--- Codetape Briefing ---
 Last traces:
   1. 2026-03-18 14:20 — Added Stripe pre-auth to PaymentService
   2. 2026-03-17 09:45 — Refactored auth middleware for JWT rotation
@@ -83,8 +83,8 @@ TODOs: 3 unresolved across recent traces
 ```
 
 To build this briefing:
-1. Read the 3 most recent files in `.promptrace/traces/` (sorted by filename)
-2. Read `.promptrace/drift.json` if it exists — show unresolved high/medium issues
+1. Read the 3 most recent files in `.codetape/traces/` (sorted by filename)
+2. Read `.codetape/drift.json` if it exists — show unresolved high/medium issues
 3. Scan recent traces for unchecked TODOs (`- [ ]`)
 
 ### Auto-Trace Trigger
@@ -101,7 +101,7 @@ Want me to run `/trace` to record these changes?"
 
 ### CLAUDE.md Sync Cadence
 
-After every **3rd trace** recorded in `.promptrace/traces/`, suggest:
+After every **3rd trace** recorded in `.codetape/traces/`, suggest:
 "You have N traces since the last doc sync. Run `/trace-sync --target claude.md`
 to keep your project context current."
 
@@ -119,12 +119,12 @@ document for detailed instructions before executing.
 
 Record a semantic trace of recent code changes.
 
-1. Read `.promptrace/config.json` for project context
-2. Read `.promptrace/component-map.json` for the component registry
+1. Read `.codetape/config.json` for project context
+2. Read `.codetape/component-map.json` for the component registry
 3. Analyse `git diff --stat` and `git diff` for changed files
 4. Read `@references/trace_schema.md` for the format specification
 5. Generate the trace log following the schema
-6. Save to `.promptrace/traces/YYYY-MM-DD_HH-MM_{slug}.md`
+6. Save to `.codetape/traces/YYYY-MM-DD_HH-MM_{slug}.md`
 7. Update `component-map.json` with affected components
 8. Output a terminal summary using `@templates/session_summary.md`
 
@@ -132,7 +132,7 @@ Record a semantic trace of recent code changes.
 
 Sync documentation from accumulated traces.
 
-1. Read `.promptrace/config.json` for `sync_targets`
+1. Read `.codetape/config.json` for `sync_targets`
 2. Read `@references/sync_strategies.md` for strategy definitions
 3. Read recent traces since last sync
 4. Apply the configured strategy for each target
@@ -145,7 +145,7 @@ Accepts `--target <name>` to sync a single target (e.g., `--target claude.md`).
 
 Generate architecture documentation from the component map.
 
-1. Read `.promptrace/component-map.json`
+1. Read `.codetape/component-map.json`
 2. Read `@templates/architecture_overview.md` for the output format
 3. Generate `docs/ARCHITECTURE.md` with system overview and mermaid dependency graph
 4. Optionally generate `docs/components/{name}.md` for individual components
@@ -157,25 +157,25 @@ Detect documentation drift.
 1. Read `@references/drift_detection.md` for severity classification rules
 2. Compare component modification dates against document update dates
 3. Perform semantic comparison between doc content and recent traces
-4. Write results to `.promptrace/drift.json`
+4. Write results to `.codetape/drift.json`
 5. If high-severity issues found, offer to run `/trace-sync`
 
 ### `/trace-init`
 
-Scaffold `.promptrace/` in the current project (for when the CLI was not used).
+Scaffold `.codetape/` in the current project (for when the CLI was not used).
 
 1. Detect project language and framework from manifest files
-2. Create `.promptrace/` directory with `traces/` and `archive/` subdirectories
+2. Create `.codetape/` directory with `traces/` and `archive/` subdirectories
 3. Generate `config.json` with detected project settings and default sync targets
 4. Scan `component_roots` to build initial `component-map.json`
-5. Offer to update `.gitignore` with `.promptrace/traces/` and `.promptrace/drift.json`
+5. Offer to update `.gitignore` with `.codetape/traces/` and `.codetape/drift.json`
 
 ### `/trace-log [component]`
 
 Query change history for a specific component.
 
 1. Accept a component name, date range, or tag as filter
-2. Search all files in `.promptrace/traces/` for matching entries
+2. Search all files in `.codetape/traces/` for matching entries
 3. Present results chronologically with summaries
 4. If no component specified, show an overview of all recent traces
 
@@ -183,7 +183,7 @@ Query change history for a specific component.
 
 Generate a conventional commit message from the most recent trace.
 
-1. Read the most recent trace from `.promptrace/traces/`
+1. Read the most recent trace from `.codetape/traces/`
 2. Determine commit type from component actions: Added = `feat`, Deleted = `refactor`,
    Modified with bug fix = `fix`, Refactored = `refactor`
 3. Extract scope from the primary affected component
@@ -245,7 +245,7 @@ Run these checks before generating a new trace:
 ### Write Scope
 
 Only write to these locations:
-- `.promptrace/` (traces, config, component-map, drift report)
+- `.codetape/` (traces, config, component-map, drift report)
 - `.claude/` (skill files, command files)
 - Configured `sync_targets` from `config.json` (README, CHANGELOG, CLAUDE.md, etc.)
 

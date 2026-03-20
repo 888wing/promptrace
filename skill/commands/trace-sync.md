@@ -6,9 +6,9 @@ Synchronise project documentation with recent trace logs.
 
 ## Instructions
 
-1. Read `.promptrace/config.json` to get `sync_targets`
+1. Read `.codetape/config.json` to get `sync_targets`
 2. Read @references/sync_strategies.md for strategy definitions
-3. Collect recent traces from `.promptrace/traces/` (since last sync or last 5 traces)
+3. Collect recent traces from `.codetape/traces/` (since last sync or last 5 traces)
 4. For each sync target:
    a. Determine the strategy (append-managed, prepend, overwrite, merge)
    b. Read the target document

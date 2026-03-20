@@ -1,6 +1,6 @@
 # Trace Schema
 
-Format specification for Promptrace trace logs.
+Format specification for Codetape trace logs.
 
 ## Template
 

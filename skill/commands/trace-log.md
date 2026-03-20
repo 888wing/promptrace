@@ -10,7 +10,7 @@ Search trace history for changes related to a specific component, date range, or
    - Component name: search for traces mentioning this component
    - Date range: `--since YYYY-MM-DD` and/or `--until YYYY-MM-DD`
    - Tag: `--tag {tag}` to filter by component tags
-2. Read all trace files in `.promptrace/traces/`
+2. Read all trace files in `.codetape/traces/`
 3. Filter traces matching the query criteria
 4. Present results chronologically:
    - Date and trace slug

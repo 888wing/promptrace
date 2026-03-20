@@ -1,11 +1,11 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-const START_MARKER = '<!-- promptrace:start:config -->';
-const END_MARKER = '<!-- promptrace:end:config -->';
+const START_MARKER = '<!-- codetape:start:config -->';
+const END_MARKER = '<!-- codetape:end:config -->';
 
 /**
- * Adds or updates a managed Promptrace section in CLAUDE.md.
+ * Adds or updates a managed Codetape section in CLAUDE.md.
  *
  * @param {string} projectDir - Absolute path to the project root
  * @param {{ componentRoots: string[] }} projectInfo
@@ -21,9 +21,9 @@ export function injectClaudeMd(projectDir, projectInfo) {
   const section = [
     '',
     START_MARKER,
-    '## Promptrace',
+    '## Codetape',
     '',
-    'This project uses [Promptrace](https://github.com/888wing/promptrace) for automatic documentation maintenance.',
+    'This project uses [Codetape](https://github.com/888wing/codetape) for automatic documentation maintenance.',
     '',
     '**Commands:**',
     '- `/trace` — Record a semantic trace of recent changes',

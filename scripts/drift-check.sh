@@ -2,10 +2,10 @@
 # drift-check.sh — Quick timestamp comparison for drift detection
 set -euo pipefail
 
-COMPONENT_MAP=".promptrace/component-map.json"
+COMPONENT_MAP=".codetape/component-map.json"
 
 if [ ! -f "$COMPONENT_MAP" ]; then
-  echo "Error: $COMPONENT_MAP not found. Run init-promptrace.sh first."
+  echo "Error: $COMPONENT_MAP not found. Run init-codetape.sh first."
   exit 1
 fi
 

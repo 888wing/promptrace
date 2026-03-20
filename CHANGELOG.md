@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Initial release
-- CLI: `npx promptrace init`, `install`, `uninstall`, `status`, `doctor`
+- CLI: `npx codetape init`, `install`, `uninstall`, `status`, `doctor`
 - Skill: SKILL.md core prompt with code historian persona
 - Commands: `/trace`, `/trace-sync`, `/trace-map`, `/trace-review`, `/trace-init`, `/trace-log`, `/trace-commit`
 - References: trace schema, sync strategies, component patterns, drift detection

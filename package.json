@@ -1,9 +1,9 @@
 {
-  "name": "promptrace",
+  "name": "codetape",
   "version": "0.1.0",
   "description": "The flight recorder for AI coding — keeps your docs in sync with your code",
   "bin": {
-    "promptrace": "bin/promptrace.js"
+    "codetape": "bin/codetape.js"
   },
   "files": [
     "bin/",
@@ -36,10 +36,10 @@
   "author": "888wing",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/888wing/promptrace.git"
+    "url": "git+https://github.com/888wing/codetape.git"
   },
-  "homepage": "https://github.com/888wing/promptrace#readme",
+  "homepage": "https://github.com/888wing/codetape#readme",
   "bugs": {
-    "url": "https://github.com/888wing/promptrace/issues"
+    "url": "https://github.com/888wing/codetape/issues"
   }
 }

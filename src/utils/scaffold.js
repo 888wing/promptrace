@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * Creates the .promptrace/ directory structure with config.json
+ * Creates the .codetape/ directory structure with config.json
  * and component-map.json.
  *
  * @param {string} projectDir - Absolute path to the project root
@@ -11,7 +11,7 @@ import { join } from 'node:path';
  */
 export function scaffold(projectDir, projectInfo) {
   const created = [];
-  const baseDir = join(projectDir, '.promptrace');
+  const baseDir = join(projectDir, '.codetape');
   const tracesDir = join(baseDir, 'traces');
   const archiveDir = join(baseDir, 'archive');
 

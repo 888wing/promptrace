@@ -29,14 +29,14 @@ Rules for detecting when project documentation has drifted out of sync with the 
 ## Detection process
 
 1. **Read component-map.json**: Load all components with their `last_modified` timestamps and associated file paths
-2. **Read sync target files**: For each file in `sync_targets`, check the file modification time or the timestamp in the last `<!-- promptrace:end -->` marker
+2. **Read sync target files**: For each file in `sync_targets`, check the file modification time or the timestamp in the last `<!-- codetape:end -->` marker
 3. **Compare timestamps**: If a component's `last_modified` is newer than the doc's last update timestamp, flag it as a drift candidate
 4. **Semantic check**: Read the doc section about the flagged component, then read the recent trace summaries that modified it. Compare the doc description against what the traces describe. If they conflict, confirm drift.
 5. **Classify severity**: Apply the severity rules above to each confirmed drift issue
 
 ## Output format
 
-Write results to `.promptrace/drift.json`:
+Write results to `.codetape/drift.json`:
 
 ```json
 {
@@ -61,5 +61,5 @@ Write results to `.promptrace/drift.json`:
 
 - **High-severity issues found**: Offer to run `/trace-sync` immediately targeting the affected files
 - **Only medium/low issues**: Display the report and suggest next steps without auto-running sync
-- **Always save**: Write results to `.promptrace/drift.json` regardless of severity level, even if zero issues are found (write an empty `issues` array)
+- **Always save**: Write results to `.codetape/drift.json` regardless of severity level, even if zero issues are found (write an empty `issues` array)
 - **Exit cleanly**: Report the count of issues by severity (e.g., "Found 1 high, 3 medium, 2 low drift issues")

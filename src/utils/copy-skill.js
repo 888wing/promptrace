@@ -24,8 +24,8 @@ export function copySkill(projectDir, options = {}) {
     ? join(homedir(), '.claude')
     : join(projectDir, '.claude');
 
-  // 3. Copy skill/ -> targetBase/skills/promptrace/
-  const skillDest = join(targetBase, 'skills', 'promptrace');
+  // 3. Copy skill/ -> targetBase/skills/codetape/
+  const skillDest = join(targetBase, 'skills', 'codetape');
   mkdirSync(skillDest, { recursive: true });
 
   // Copy SKILL.md

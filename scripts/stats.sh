@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# stats.sh — Quick stats about Promptrace data
+# stats.sh — Quick stats about Codetape data
 set -euo pipefail
 
-TRACES_DIR=".promptrace/traces"
-COMPONENT_MAP=".promptrace/component-map.json"
+TRACES_DIR=".codetape/traces"
+COMPONENT_MAP=".codetape/component-map.json"
 
-if [ ! -d ".promptrace" ]; then
-  echo "Error: .promptrace/ not found. Run init-promptrace.sh first."
+if [ ! -d ".codetape" ]; then
+  echo "Error: .codetape/ not found. Run init-codetape.sh first."
   exit 1
 fi
 
@@ -35,7 +35,7 @@ else
   COMPONENT_COUNT=0
 fi
 
-echo "Promptrace Stats"
+echo "Codetape Stats"
 
 if [ "$TRACE_COUNT" -eq 0 ]; then
   echo "  Traces:     0"
