@@ -297,6 +297,7 @@ footer{
   .footer-inner{flex-direction:column;gap:12px}
   .feat{transform:none!important}
   .feat::before{display:none}
+  #hero-canvas{display:none}
   .btn-p{transform:none!important}
   .btn-p::after{display:none}
   .ba-slider{height:240px}
@@ -844,7 +845,7 @@ document.querySelectorAll('.reveal,.reveal-children,.divider.reveal').forEach(el
 })();
 
 function copyCmd(el){
-  navigator.clipboard.writeText('npx codetape init');
+  navigator.clipboard.writeText('npx codetape init').catch(function(){});
   const t=el.querySelector('.toast');
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),1500);
@@ -943,11 +944,28 @@ if (driftEl) driftObs.observe(driftEl);
       ctx.lineWidth = 1.5;
       ctx.stroke();
     }
-    requestAnimationFrame(draw);
   }
 
   // Only run canvas animation on non-touch devices
-  if (!isMobile) draw();
+  if (!isMobile) {
+    let animId = null;
+    let visible = true;
+
+    function loop() {
+      if (visible) {
+        draw();
+        animId = requestAnimationFrame(loop);
+      }
+    }
+
+    new IntersectionObserver((entries) => {
+      visible = entries[0].isIntersecting;
+      if (visible && !animId) loop();
+      if (!visible && animId) { cancelAnimationFrame(animId); animId = null; }
+    }, {threshold:0}).observe(canvas.parentElement);
+
+    loop();
+  }
 })();
 
 // Feature card 3D tilt
@@ -1093,9 +1111,9 @@ if (driftEl) driftObs.observe(driftEl);
   }
 
   handle.addEventListener('mousedown', () => dragging = true);
-  handle.addEventListener('touchstart', () => dragging = true, {passive:true});
+  handle.addEventListener('touchstart', (e) => { dragging = true; e.preventDefault(); }, {passive:false});
   window.addEventListener('mousemove', (e) => { if (dragging) setPos(getX(e)); });
-  window.addEventListener('touchmove', (e) => { if (dragging) setPos(getX(e)); }, {passive:true});
+  window.addEventListener('touchmove', (e) => { if (dragging) { e.preventDefault(); setPos(getX(e)); } }, {passive:false});
   window.addEventListener('mouseup', () => dragging = false);
   window.addEventListener('touchend', () => dragging = false);
   slider.addEventListener('click', (e) => setPos(getX(e)));
@@ -1120,12 +1138,12 @@ if (driftEl) driftObs.observe(driftEl);
 
 // VHS Easter Egg — Konami Code
 (function() {
-  var code = [38,38,40,40,37,39,37,39,66,65];
+  var code = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   var pos = 0;
   var vhs = document.getElementById('vhs');
   if (!vhs) return;
   document.addEventListener('keydown', function(e) {
-    if (e.keyCode === code[pos]) {
+    if (e.key === code[pos] || e.key.toLowerCase() === code[pos]) {
       pos++;
       if (pos === code.length) {
         pos = 0;
