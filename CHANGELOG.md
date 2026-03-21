@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2026-03-21
+
+### Added
+- `serve` command: live-reloading dashboard at localhost:3210
+- 6-panel dashboard: project overview, trace timeline, component map, drift status, decisions, TODOs
+- SSE-based auto-refresh when .codetape/ data changes
+- Mermaid.js component dependency visualization
+- Dark theme matching codetape.win brand (amber + cassette aesthetic)
+
 ## [0.1.1] - 2026-03-21
 
 ### Fixed

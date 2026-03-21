@@ -42,6 +42,7 @@ That's it. Your README, CHANGELOG, and ARCHITECTURE.md stay in sync.
 | `/trace-log [component]` | Query change history |
 | `/trace-commit` | Generate conventional commit message |
 | `/trace-init` | Initialize tracking (in-session alternative to CLI) |
+| `serve` | Start live dashboard with auto-refresh (CLI: `npx codetape serve`) |
 
 ## How It Works
 
