@@ -868,7 +868,15 @@ function buildMermaidGraph(componentMap) {
 
 function buildComponentTable(componentMap) {
   const comps = componentMap?.components;
-  if (!comps || comps.length === 0) {
+  if (!comps || typeof comps !== 'object') {
+    if (!componentMap?.relationships || componentMap.relationships.length === 0) {
+      return '<div class="panel-empty">No components mapped yet.</div>';
+    }
+    return '';
+  }
+
+  const entries = Object.entries(comps);
+  if (entries.length === 0) {
     if (!componentMap?.relationships || componentMap.relationships.length === 0) {
       return '<div class="panel-empty">No components mapped yet.</div>';
     }
@@ -876,8 +884,8 @@ function buildComponentTable(componentMap) {
   }
 
   let html = '<table class="component-table"><thead><tr><th>Component</th><th>Type</th><th>Path</th></tr></thead><tbody>';
-  for (const c of comps) {
-    html += `<tr><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.type || '')}</td><td>${escapeHtml(c.path || '')}</td></tr>`;
+  for (const [name, c] of entries) {
+    html += `<tr><td>${escapeHtml(name)}</td><td>${escapeHtml(c.type || '')}</td><td>${escapeHtml(c.path || '')}</td></tr>`;
   }
   html += '</tbody></table>';
   return html;
