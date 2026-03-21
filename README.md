@@ -5,6 +5,7 @@
 [![npm version](https://img.shields.io/npm/v/codetape)](https://www.npmjs.com/package/codetape)
 [![license](https://img.shields.io/npm/l/codetape)](https://github.com/888wing/codetape/blob/main/LICENSE)
 [![node](https://img.shields.io/node/v/codetape)](https://nodejs.org)
+[![website](https://img.shields.io/badge/website-codetape.win-f0a030)](https://codetape.win)
 
 A [Claude Code skill](https://docs.anthropic.com/en/docs/claude-code/skills) that automatically maintains documentation as AI agents modify your codebase. Zero dependencies. Fully local.
 
