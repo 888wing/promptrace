@@ -12,7 +12,12 @@ const END_MARKER = '<!-- codetape:end:config -->';
  * @returns {{ action: 'created' | 'updated' | 'appended', path: string }}
  */
 export function injectClaudeMd(projectDir, projectInfo) {
-  const claudeMdPath = join(projectDir, 'CLAUDE.md');
+  // Check both common CLAUDE.md locations
+  const candidates = [
+    join(projectDir, 'CLAUDE.md'),
+    join(projectDir, '.claude', 'CLAUDE.md'),
+  ];
+  const claudeMdPath = candidates.find(p => existsSync(p)) || candidates[0];
 
   const rootsList = projectInfo.componentRoots
     .map((r) => '`' + r + '`')

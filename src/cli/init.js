@@ -9,13 +9,19 @@ import { injectClaudeMd } from '../utils/inject-claude-md.js';
 
 export async function init(args) {
   const projectDir = process.cwd();
-  const rl = createInterface({ input: stdin, output: stdout });
+  const isNonInteractive = !stdin.isTTY;
+  const rl = isNonInteractive ? null : createInterface({ input: stdin, output: stdout });
+
+  async function ask(question, defaultYes = true) {
+    if (isNonInteractive) return defaultYes;
+    const answer = await rl.question(question);
+    return defaultYes ? answer.toLowerCase() !== 'n' : answer.toLowerCase() === 'y';
+  }
 
   try {
     // 1. Check if .codetape/ already exists
     if (existsSync(join(projectDir, '.codetape'))) {
-      const answer = await rl.question('.codetape/ already exists. Reconfigure? (y/N) ');
-      if (answer.toLowerCase() !== 'y') {
+      if (!await ask('.codetape/ already exists. Reconfigure? (y/N) ', false)) {
         console.log('Aborted.');
         return;
       }
@@ -29,8 +35,7 @@ export async function init(args) {
     console.log(`  Framework:  ${projectInfo.framework || 'none'}`);
     console.log(`  Components: ${projectInfo.componentRoots.join(', ') || 'src/'}`);
 
-    const confirm = await rl.question('\nProceed with these settings? (Y/n) ');
-    if (confirm.toLowerCase() === 'n') {
+    if (!await ask('\nProceed with these settings? (Y/n) ')) {
       console.log('Aborted.');
       return;
     }
@@ -46,30 +51,26 @@ export async function init(args) {
     console.log(`  ✓ ${skillFiles.length} skill files → .claude/skills/codetape/`);
     console.log(`  ✓ ${commandFiles.length} commands → .claude/commands/`);
 
-    // 5. CLAUDE.md injection
-    const claudeAnswer = await rl.question('\nAdd Codetape section to CLAUDE.md? (Y/n) ');
-    if (claudeAnswer.toLowerCase() !== 'n') {
-      const result = injectClaudeMd(projectDir, projectInfo);
-      console.log(`  ✓ CLAUDE.md ${result.action}`);
-    }
+    // 5. CLAUDE.md injection (no prompt — always do it, idempotent)
+    console.log('\n📝 Updating CLAUDE.md...');
+    const result = injectClaudeMd(projectDir, projectInfo);
+    console.log(`  ✓ CLAUDE.md ${result.action}`);
 
-    // 6. .gitignore update
-    const gitAnswer = await rl.question('Add .codetape/traces/ to .gitignore? (Y/n) ');
-    if (gitAnswer.toLowerCase() !== 'n') {
-      const gitignorePath = join(projectDir, '.gitignore');
-      const entries = '\n# Codetape\n.codetape/traces/\n.codetape/drift.json\n';
-      if (existsSync(gitignorePath)) {
-        const content = readFileSync(gitignorePath, 'utf8');
-        if (!content.includes('.codetape/traces/')) {
-          appendFileSync(gitignorePath, entries);
-          console.log('  ✓ Updated .gitignore');
-        } else {
-          console.log('  ✓ .gitignore already configured');
-        }
-      } else {
+    // 6. .gitignore update (no prompt — always do it, idempotent)
+    console.log('\n🔒 Updating .gitignore...');
+    const gitignorePath = join(projectDir, '.gitignore');
+    const entries = '\n# Codetape\n.codetape/traces/\n.codetape/drift.json\n';
+    if (existsSync(gitignorePath)) {
+      const content = readFileSync(gitignorePath, 'utf8');
+      if (!content.includes('.codetape/traces/')) {
         appendFileSync(gitignorePath, entries);
-        console.log('  ✓ Created .gitignore');
+        console.log('  ✓ Updated .gitignore');
+      } else {
+        console.log('  ✓ .gitignore already configured');
       }
+    } else {
+      appendFileSync(gitignorePath, entries);
+      console.log('  ✓ Created .gitignore');
     }
 
     // 7. Success
@@ -80,6 +81,6 @@ export async function init(args) {
     console.log('  3. Run /trace-sync to update your docs\n');
 
   } finally {
-    rl.close();
+    if (rl) rl.close();
   }
 }
